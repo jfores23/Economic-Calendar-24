@@ -1,0 +1,105 @@
+import csv
+
+# Define CPI event dates (EST)
+cpi_events = [
+    ("Nov. 14, 2023", "08:30 AM"),
+    ("Dec. 12, 2023", "08:30 AM"),
+    ("Jan. 11, 2024", "08:30 AM"),
+    ("Feb. 13, 2024", "08:30 AM"),
+    ("Mar. 12, 2024", "08:30 AM"),
+    ("Apr. 10, 2024", "08:30 AM"),
+    ("May 15, 2024", "08:30 AM"),
+    ("Jun. 12, 2024", "08:30 AM"),
+    ("Jul. 11, 2024", "08:30 AM"),
+    ("Aug. 14, 2024", "08:30 AM"),
+    ("Sep. 11, 2024", "08:30 AM"),
+    ("Oct. 10, 2024", "08:30 AM"),
+    ("Nov. 13, 2024", "08:30 AM"),
+    ("Dec. 11, 2024", "08:30 AM")
+]
+
+# Define PPI event dates (EST)
+ppi_events = [
+    ("Nov. 14, 2023", "08:30 AM"),
+    ("Dec. 13, 2023", "08:30 AM"),
+    ("Jan. 12, 2024", "08:30 AM"),
+    ("Feb. 14, 2024", "08:30 AM"),
+    ("Mar. 13, 2024", "08:30 AM"),
+    ("Apr. 11, 2024", "08:30 AM"),
+    ("May 14, 2024", "08:30 AM"),
+    ("Jun. 13, 2024", "08:30 AM"),
+    ("Jul. 11, 2024", "08:30 AM"),
+    ("Aug. 13, 2024", "08:30 AM"),
+    ("Sep. 12, 2024", "08:30 AM"),
+    ("Oct. 11, 2024", "08:30 AM"),
+    ("Nov. 13, 2024", "08:30 AM"),
+    ("Dec. 12, 2024", "08:30 AM")
+]
+
+# Define FOMC meeting dates and times (EST)
+fomc_events = [
+    ("January 30, 2024", "2:00 PM"),
+    ("March 19, 2024", "2:00 PM"),
+    ("April 30, 2024", "2:00 PM"),
+    ("June 11, 2024", "2:00 PM"),
+    ("July 30, 2024", "2:00 PM"),
+    ("September 17, 2024", "2:00 PM"),
+    ("November 6, 2024", "2:00 PM"),
+    ("December 17, 2024", "2:00 PM")
+]
+
+# Define NFP release dates and times (EST)
+nfp_events = [
+    ("January", 5, "8:30 AM"),
+    ("February", 2, "8:30 AM"),
+    ("March", 8, "8:30 AM"),
+    ("April", 5, "8:30 AM"),
+    ("May", 3, "8:30 AM"),
+    ("June", 7, "8:30 AM"),
+    ("July", 5, "8:30 AM"),
+    ("August", 2, "8:30 AM"),
+    ("September", None, None),  # Placeholder for missing date
+    ("October", 4, "8:30 AM"),
+    ("November", 1, "8:30 AM"),
+    ("December", 6, "8:30 AM")
+]
+
+# Specify CSV file path
+csv_file = "economic_events.csv"
+
+# Write data to CSV file
+with open(csv_file, 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["Event", "Month", "Date", "Time"])
+
+    # Write CPI events to CSV
+    for event in cpi_events:
+        if ',' in event[0]:
+            month_day, time = event
+            month, day_year = month_day.split(',')
+            day = day_year.split()[0]
+            writer.writerow(["CPI", month.strip(), day, time])
+
+    # Write PPI events to CSV
+    for event in ppi_events:
+        if ',' in event[0]:
+            month_day, time = event
+            month, day_year = month_day.split(',')
+            day = day_year.split()[0]
+            writer.writerow(["PPI", month.strip(), day, time])
+
+    # Write FOMC meeting events to CSV
+    for event in fomc_events:
+        date_str, time_str = event
+        month = date_str.split(',')[0]
+        writer.writerow(["FOMC", month, date_str, time_str])
+
+    # Write NFP release events to CSV
+    for event in nfp_events:
+        month, day, time = event
+        if day is not None:
+            # Format day with Unicode subscript to match month color
+            formatted_day = ''.join([f'{char}\u2080' for char in str(day)])
+            writer.writerow(["NFP", month, formatted_day, time])
+
+print(f"CSV file '{csv_file}' has been created successfully.")
